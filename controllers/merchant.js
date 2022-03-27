@@ -1,95 +1,77 @@
 const Merchant = require('../model/merchant')
 const db = require('../config/db')
 class controllerMerchant {
-    static createMerchants(req, res) {
-            let values=[req.body.id,
-            req.body.password,
-            req.body.name,
-            req.body.address,
-            req.body.join_date,
-            req.body.phone_number];
-        
-        db.query(Merchant.createMerchants(),[values],(err)=>{
-            if(err){
-                res.status(400).json(err)
-                return
-            }
-            const data = req.body
-            console.log(data);
-                res.status(201)
-                res.send(data)
-        })
-        
+    static createMerchants(req,res) {
+        let data = req.body
+        Merchant.createMerchants(data)
+            .then(data => {
+                res.status(200).json(req.body)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
     }
 
     static deleteMerchants(req,res){
-        const id = req.params.id  
-        db.query(Merchant.deleteMerchants(),[id],(err, result)=> {  
-            if(err){res.status(400).json(err)
-                return
-            }
-        console.log("Number of records deleted: " + result.affectedRows);  
-        res.status(200)
-        res.send("Number of records deleted: " + result.affectedRows)
-        });  
+        let data = req.params
+        Merchant.deleteMerchants(data)
+            .then(data => {
+                res.status(200)
+                res.send("Number of records deleted: " + data.affectedRows)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
     }
 
     static createProduct(req, res) {
-        let values=[req.body.id,
-        req.body.name,
-        req.body.quantity,
-        req.body.price];
-    
-    db.query(Merchant.createProduct(),[values],(err)=>{
-        if(err){
-            res.status(400).json(err)
-            return
-        }
-        const data = req.body
-        console.log(data);
-            res.status(201)
-            res.send(data)
-    })
+        let data = req.body
+        Merchant.createProduct(data)
+            .then(data => {
+                res.status(200).json(req.body)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
     
     }
 
     static updateProduct(req,res){
-        const id = req.params.id;
-        const name = req.body.name;
-        const quantity = req.body.quantity;
-        const price = req.body.price;
-        
-        db.query(Merchant.updateProduct(), [name,quantity,price,id], function (err) {
-            if(err){res.status(400).json(err)
-                return
-            }
-            if(req.body.id!=id){
-                res.send("ID Param not Match With ID Body")
-                return
-            }
-            console.log(req.body)
-            res.status(201)
-            res.send(req.body)
-        });
+        let data = req.body
+        let dataID = req.params
+        if(data.id!=dataID.id){
+            return res.status(400).json({message : "ID Params not match with ID Body"})
+        }
+        Merchant.updateProduct(data,dataID)
+            .then(data => {
+                let dataUpdate = req.body
+                res.status(200).json(dataUpdate)
+            })            
+            .catch(err => {
+                res.status(500).json(err)
+            })
+            
     }
 
     static deleteProduct(req,res){
-        const id = req.params.id  
-        db.query(Merchant.deleteProduct(),[id],(err, result)=> {  
-            if(err){res.status(400).json(err)
-                return
-            }
-        console.log("Number of records deleted: " + result.affectedRows);  
-        res.status(200)
-        res.send("Number of records deleted: " + result.affectedRows)
-        });  
+        let data = req.params
+        Merchant.deleteProduct(data)
+            .then(data => {
+                res.status(200)
+                res.send("Number of records deleted: " + data.affectedRows)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
     }
 
     static getProduct(req, res) {
-        db.query(Merchant.getProduct(),(err,result)=>{
-            if(err) throw err;
-            res.status(200)
-            res.send(result)
+        Merchant.getProduct()
+        .then(data=>{
+            res.status(200).json(data)
+        })
+        .catch(err=>{
+            res.status(404).json(err)
         })
     }
 
