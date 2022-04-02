@@ -42,8 +42,9 @@ class Merchant{
         let values=[data.id,
                 data.name,
                 data.quantity,
-                data.price];
-        const query = `INSERT INTO product_info(id,name,quantity,price) VALUES (?)`
+                data.price,
+                data.merchant_id];
+        const query = `INSERT INTO product_info(id,name,quantity,price,merchant_id) VALUES (?)`
         db.query(query,[values], (err, row) => {
             if (err) {
                 console.log(err);
@@ -63,8 +64,9 @@ class Merchant{
             const name = data.name;
             const quantity = data.quantity;
             const price = data.price;
-            let productUpdate = `UPDATE product_info SET name = ?,quantity = ?,price = ? WHERE id = ?`;
-            db.query(productUpdate,[name,quantity,price,id], (err, row) => {
+            const merchant_id = data.merchant_id;
+            let productUpdate = `UPDATE product_info SET name = ?,quantity = ?,price = ?,merchant_id = ? WHERE id = ?`;
+            db.query(productUpdate,[name,quantity,price,merchant_id,id], (err, row) => {
                 if (err) {
                     console.log(err);
                     return reject(err)
@@ -88,7 +90,7 @@ class Merchant{
                     console.log(err);
                     return reject(err)
                 }else{
-                    console.log("Number of records deleted: ",data);
+                    console.log("id :",data.id,"Already deleted ");
                     resolve(row)
                 }
             })
@@ -97,7 +99,16 @@ class Merchant{
 
     static getProduct() {
         return new Promise(function(resolve,reject){
-            let selectQuery = `SELECT * FROM product_info`;
+            let selectQuery = `select 
+            p.id as id,
+            p.name as name,
+            p.quantity as quantity,
+            p.Price as price,
+            m.name as merchant_name
+        from product_info as p
+        join 
+            merchant_info as m 
+        on m.id = p.merchant_id;`;
             db.query(selectQuery,(err,row)=>{
                 if(err){
                     console.log(err);
@@ -109,10 +120,25 @@ class Merchant{
             })
         })
         
-        return selectQuery;
     }
-    
 
+    // function findbyid
+    static findByName(data) {
+        return new Promise(function(resolve,reject){
+            const values = [data.name]
+            let selectName = `SELECT * FROM merchant_info WHERE name=?`;
+            db.query(selectName,[values],(err,row)=>{
+                if(err){
+                    console.log(err);
+                    return reject(err)
+                }else{
+                    console.log(row);
+                    resolve(row)
+                }
+            })
+        })
+        
+    }
     
 
     
