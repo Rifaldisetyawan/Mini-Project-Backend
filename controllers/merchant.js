@@ -40,8 +40,12 @@ class controllerMerchant {
     static async updateProduct(req,res){
         let data = req.body
         let dataID = req.params
+        const existingProduct = await Merchant.findByid(data)
         if(data.id!=dataID.id){
             return res.status(400).json({message : "ID Params not match with ID Body"})
+        }
+        else if(existingProduct[0]==null){
+            return res.status(404).json({message : "Data not found"})
         }
         await Merchant.updateProduct(data,dataID)
             .then(data => {
@@ -90,7 +94,7 @@ class controllerMerchant {
             res.status(200).json({token})
         } 
         else{
-            res.status(400).json({message:'Password is Wrong!'})
+            res.status(401).json({message:'Password is Wrong!'})
         }
     }
 }
