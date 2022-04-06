@@ -1,4 +1,6 @@
-# Mini-Project-Backend
+# ERD
+<img src="image/erd.jpg" width=75%></img>
+---
 # api contract
 #Merchant
 * merchant_info
