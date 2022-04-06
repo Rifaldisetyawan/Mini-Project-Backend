@@ -156,6 +156,22 @@ class Merchant{
         })
         
     }
+    static findByidMerchant(data) {
+        return new Promise(function(resolve,reject){
+            const values = [data.id]
+            let selectId = `SELECT * FROM merchant_info WHERE id=?`;
+            db.query(selectId,[values],(err,row)=>{
+                if(err){
+                    console.log(err);
+                    return reject(err)
+                }else{
+                    console.log(row);
+                    resolve(row)
+                }
+            })
+        })
+        
+    }
     
 }
 

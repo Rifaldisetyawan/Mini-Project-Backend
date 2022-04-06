@@ -15,10 +15,14 @@ class controllerMerchant {
 
     static async deleteMerchants(req,res){
         let data = req.params
+        const existingmerchant = await Merchant.findByidMerchant(data)
+        if(existingmerchant[0]==null){
+            return res.status(404).json({message:"data not found"})
+        }
         await Merchant.deleteMerchants(data)
             .then(data => {
                 res.status(200)
-                res.send("Number of records deleted: " + data.affectedRows)
+                res.send("id: " + req.params.id + " has been deleted")
             })
             .catch(err => {
                 res.status(500).json(err)
@@ -60,11 +64,14 @@ class controllerMerchant {
 
     static async deleteProduct(req,res){
         let data = req.params
+        const existingProduct = await Merchant.findByid(data)
+        if(existingProduct[0]==null){
+            return res.status(404).json({message:"data not found"})
+        }
         await Merchant.deleteProduct(data)
             .then(data => {
                 res.status(200)
-                res.send("id : "+data.id+" Already deleted"+" || Number of records deleted: " + data.affectedRows)
-                res.send()
+                res.send("id: " + req.params.id + " has been deleted")
             })
             .catch(err => {
                 res.status(500).json(err)
