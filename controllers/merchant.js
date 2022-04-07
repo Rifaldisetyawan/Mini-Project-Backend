@@ -1,9 +1,8 @@
 const Merchant = require('../model/merchant')
 const jwt = require('jsonwebtoken')
-const { findById, findByEmail } = require('../model/merchant')
 class controllerMerchant {
     static async createMerchants(req,res) {
-        let data = req.body
+        const data = req.body
         await Merchant.createMerchants(data)
             .then(data => {
                 res.status(200).json(req.body)
@@ -14,7 +13,7 @@ class controllerMerchant {
     }
 
     static async deleteMerchants(req,res){
-        let data = req.params
+        const data = req.params
         const existingmerchant = await Merchant.findByidMerchant(data)
         if(existingmerchant[0]==null){
             return res.status(404).json({message:"data not found"})
@@ -30,7 +29,7 @@ class controllerMerchant {
     }
 
     static async createProduct(req, res) {
-        let data = req.body
+        const data = req.body
         await Merchant.createProduct(data)
             .then(data => {
                 res.status(200).json(req.body)
@@ -42,8 +41,8 @@ class controllerMerchant {
     }
 
     static async updateProduct(req,res){
-        let data = req.body
-        let dataID = req.params
+        const data = req.body
+        const dataID = req.params
         const existingProduct = await Merchant.findByid(data)
         if(data.id!=dataID.id){
             return res.status(400).json({message : "ID Params not match with ID Body"})
@@ -63,7 +62,7 @@ class controllerMerchant {
     }
 
     static async deleteProduct(req,res){
-        let data = req.params
+        const data = req.params
         const existingProduct = await Merchant.findByid(data)
         if(existingProduct[0]==null){
             return res.status(404).json({message:"data not found"})
