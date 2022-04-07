@@ -2,7 +2,7 @@ const db = require('../config/db')
 class Merchant{
     static createMerchants(data) {
         return new Promise (function(resolve, reject) {
-            let values=[data.id,
+            const values=[data.id,
                     data.password,
                     data.name,
                     data.address,
@@ -23,8 +23,8 @@ class Merchant{
 
     static deleteMerchants(data){
         return new Promise (function(resolve, reject){
-            let values = [data.id]
-            let merchantDelete = `DELETE FROM merchant_info WHERE id =?`;
+            const values = [data.id]
+            const merchantDelete = `DELETE FROM merchant_info WHERE id =?`;
             db.query(merchantDelete,[values],(err, row)=>{
                 if(err){
                     console.log(err);
@@ -39,7 +39,7 @@ class Merchant{
 
     static createProduct(data) { 
         return new Promise (function(resolve, reject) {
-        let values=[data.id,
+        const values=[data.id,
                 data.name,
                 data.quantity,
                 data.price,
@@ -65,7 +65,7 @@ class Merchant{
             const quantity = data.quantity;
             const price = data.price;
             const merchant_id = data.merchant_id;
-            let productUpdate = `UPDATE product_info SET name = ?,quantity = ?,price = ?,merchant_id = ? WHERE id = ?`;
+            const productUpdate = `UPDATE product_info SET name = ?,quantity = ?,price = ?,merchant_id = ? WHERE id = ?`;
             db.query(productUpdate,[name,quantity,price,merchant_id,id], (err, row) => {
                 if (err) {
                     console.log(err);
@@ -83,8 +83,8 @@ class Merchant{
 
     static deleteProduct(data){
         return new Promise (function(resolve, reject){
-            let values = [data.id]
-            let productDelete = `DELETE FROM product_info WHERE id =?`;
+            const values = [data.id]
+            const productDelete = `DELETE FROM product_info WHERE id =?`;
             db.query(productDelete,[values],(err, row)=>{
                 if(err){
                     console.log(err);
@@ -99,7 +99,7 @@ class Merchant{
 
     static getProduct() {
         return new Promise(function(resolve,reject){
-            let selectQuery = `select 
+            const selectQuery = `select 
             p.id as id,
             p.name as name,
             p.quantity as quantity,
@@ -126,7 +126,7 @@ class Merchant{
     static findByName(data) {
         return new Promise(function(resolve,reject){
             const values = [data.name]
-            let selectName = `SELECT * FROM merchant_info WHERE name=?`;
+            const selectName = `SELECT * FROM merchant_info WHERE name=?`;
             db.query(selectName,[values],(err,row)=>{
                 if(err){
                     console.log(err);
@@ -143,7 +143,7 @@ class Merchant{
     static findByid(data) {
         return new Promise(function(resolve,reject){
             const values = [data.id]
-            let selectId = `SELECT * FROM product_info WHERE id=?`;
+            const selectId = `SELECT * FROM product_info WHERE id=?`;
             db.query(selectId,[values],(err,row)=>{
                 if(err){
                     console.log(err);
@@ -159,7 +159,7 @@ class Merchant{
     static findByidMerchant(data) {
         return new Promise(function(resolve,reject){
             const values = [data.id]
-            let selectId = `SELECT * FROM merchant_info WHERE id=?`;
+            const selectId = `SELECT * FROM merchant_info WHERE id=?`;
             db.query(selectId,[values],(err,row)=>{
                 if(err){
                     console.log(err);
