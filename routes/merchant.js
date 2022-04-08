@@ -13,10 +13,6 @@ router.get('/product',Middleware.checkAuth, controllerMerchant.getProduct)
 
 router.post('/login/',controllerMerchant.login)
 
-// router.post('/', controllerUsers.createUsers)
-
-
-
 
 
 module.exports = router
