@@ -1,3 +1,6 @@
+# architecture diagram
+<img src="image/arcDiag.png" width=75%></img>
+---
 # ERD
 <img src="image/erd.jpg" width=75%></img>
 ---
